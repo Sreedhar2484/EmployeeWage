@@ -9,15 +9,18 @@ public class EmployeeWage {
         Random attendance = new Random();
         // variables
          int Check_Attendance = attendance.nextInt(3);
-        if(Check_Attendance == 1) {
+        switch (Check_Attendance) {
+        case 1:
         	System.out.println("Employee Is Present");
         	System.out.println("Daily employee wage is:"+(Emp_RATE_PER_HOUR*Full_Day_Hours));
-        }else if (Check_Attendance == 2){
+            break;
+        case 2 :
         	System.out.println("Employee Is Present But PartTime:");
         	System.out.println("Part Time Employee daily wage is:"+((Emp_RATE_PER_HOUR/2)*Full_Day_Hours));
-
-        }else {
+            break;
+        default:
         	System.out.println("Employee is Abscent");
+            break;
         }
 	}
 }
