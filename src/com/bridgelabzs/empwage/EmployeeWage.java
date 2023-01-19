@@ -3,48 +3,56 @@ package com.bridgelabzs.empwage;
 import java.util.Random;
 
 public class EmployeeWage {
-    public static void main(String[] args) {
-        int Full_Day_Hours = 8;
-        int Emp_RATE_PER_HOUR = 20;
-        int Total_Working_Days = 0;
-        int Total_Working_Hours = 0;
-       
-        // variables
-        Random attendance = new Random();
-         int Check_Attendance = attendance.nextInt(3);
-         int check = new Random().nextInt(2);
-        switch (Check_Attendance) {
-        case 1:
-                while (Total_Working_Hours <= 100 && Total_Working_Days < 20) {
-                if (check == 1) {
-                    Total_Working_Days++;
+    /*
+     * Refactor the Code to write a Class Method to Compute Employee Wage
+     */
 
-                    System.out.println(" employee wage for " + Total_Working_Days + " days is: "
-                            + (Total_Working_Hours * Emp_RATE_PER_HOUR * Full_Day_Hours));
-                } else {
-                    System.out.println(" employee wage for " + Total_Working_Days + " hours is:"
-                            + (Total_Working_Hours * Emp_RATE_PER_HOUR));
-                    Total_Working_Hours++;
-                }
+    public static int wagePerHour = 20;
+    public static int fullDayHours = 8;
+    public static int halfDayHours = 4;
+    public static int salary = 0;
+    public static int monthlySalary = 0;
+    public static int workingDaysPerMonth = 20;
+    public static int days = 0;
+    public static int monthlyHours = 0;
+
+    public static int EmployeeWage(){
+        System.out.println("Welcome to Employee Wage Computation Program");
+        Random random = new Random(); // create object
+
+        /*
+         * for a month assuming 100 hours and 20day will give 0,1,2 random number
+         */
+
+         while(days!=20 && monthlyHours!=100){
+            days++;
+            int randomNum = random.nextInt(3);
+
+            switch(randomNum){
+                case 0:
+                    System.out.println("Employee is absent");
+                break;
+                case 1:
+					System.out.println("employee is present for Full Time: ");
+					salary = wagePerHour * fullDayHours;
+					monthlyHours = monthlyHours+fullDayHours;
+					break;
+				case 2:
+					System.out.println("employe present for Part Time: ");
+					salary = wagePerHour * halfDayHours;
+					monthlyHours = monthlyHours+halfDayHours;
             }
-            System.out.println("Employee Is Present and performing full time");
-
-        	
-        case 2 :
-                 while(Total_Working_Hours<=100 && Total_Working_Days<20) {
-        		if(check ==1) {
-        			Total_Working_Days++;
-        	System.out.println("part Time Employee wage for "+Total_Working_Days+"days is: "+((Emp_RATE_PER_HOUR/2)*Full_Day_Hours*Total_Working_Days));
-        		}else {
-        			System.out.println("part Time Employee wage for "+Total_Working_Hours+"hours is:"+((Emp_RATE_PER_HOUR/2)*Total_Working_Hours));
-        			Total_Working_Hours++;
-        		}
-        	}System.out.println("Employee Is Present But PartTime");
-
-        	break;
-        default:
-        	System.out.println("Employee is Abscent");
-        	break;
+            monthlySalary = monthlySalary + salary;
+            System.out.println("total hours "+monthlyHours+" and Day "+ days + " salary is : " + salary);
         }
-	}
+        System.out.println("Monthly Salary: " + monthlySalary);
+		return monthlySalary;
+    }
+
+    public static void main(String[] args) {
+        EmployeeWage();
+    }
 }
+
+
+        
