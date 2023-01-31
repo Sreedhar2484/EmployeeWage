@@ -5,68 +5,65 @@ public class EmployeeWage {
     public static final int IS_FULL_TIME = 1;
     public static final int IS_PART_TIME = 2;
 
-    private final String companyName;
-    private final int empRatePerHour;
-    private final int numOfWorkingDays;
-    private final int maxHoursInMonth;
-    private int totalEmpWage;
+    private int numberOfCompanies = 0;
+    private CompanyWage[] companyWageArray;
 
-    public EmployeeWage(String companyName, int empRatePerHour, int numOfWorkingDays, int maxHoursInMonth) {
-        this.companyName = companyName;
-        this.empRatePerHour = empRatePerHour;
-        this.numOfWorkingDays = numOfWorkingDays;
-        this.maxHoursInMonth = maxHoursInMonth;
+    public EmployeeWage() {
+        companyWageArray = new CompanyWage[5];
     }
 
     public static void main(String args[]) {
-        EmployeeWage apple = new EmployeeWage("Apple", 40, 16, 200);
-        EmployeeWage google = new EmployeeWage("Google", 50, 20, 120);
-        EmployeeWage facebok = new EmployeeWage("Facebook", 80, 18, 220);
+        EmployeeWage wageCalculator = new EmployeeWage();
 
-        apple.computeEmpWage();
-        System.out.println(apple);
-        google.computeEmpWage();
-        System.out.println(google);
-        facebok.computeEmpWage();
-        System.out.println(facebok);
+        wageCalculator.addCompany("Apple", 40, 15, 200);
+        wageCalculator.addCompany("Google", 80, 20, 120);
+        wageCalculator.addCompany("Facebook", 90, 18, 220);
+        wageCalculator.computeEmpWage();
     }
 
-    public void computeEmpWage() {
-        int Emp_Hrs = 0;
-        int Emp_Wage = 0;
-        int Total_Working_Days = 0;
-        int Total_EmpHrs = 0;
+    private void addCompany(String companyName, int empRatePerHour, int numOfWorkingDays, int maxHoursInMonth) {
+        companyWageArray[numberOfCompanies] = new CompanyWage(companyName, empRatePerHour, numOfWorkingDays,
+                maxHoursInMonth);
+        numberOfCompanies++;
+    }
 
-        for (Total_Working_Days = 1; Total_EmpHrs <= maxHoursInMonth
-                && Total_Working_Days < numOfWorkingDays; Total_Working_Days++) {
+    private void computeEmpWage() {
+        for (int i = 0; i < numberOfCompanies; i++) {
+            companyWageArray[i].setTotalEmpWage(this.computeEmpWage(companyWageArray[i]));
+            System.out.println(companyWageArray[i]);
+        }
+    }
+
+    private int computeEmpWage(CompanyWage companyWage) {
+        int empHrs = 0;
+        int empWage = 0;
+        int totalWorkingDays = 0;
+        int totalEmpHrs = 0;
+
+        for (totalWorkingDays = 1; totalEmpHrs <= companyWage.maxHoursInMonth
+                && totalWorkingDays < companyWage.numOfWorkingDays; totalWorkingDays++) {
             int empCheck = (int) Math.floor(Math.random() * 10) % 3;
 
             switch (empCheck) {
                 case IS_FULL_TIME:
-                    Emp_Hrs = 8;
+                    empHrs = 8;
                     System.out.println("Employee is present Full time.");
                     break;
 
                 case IS_PART_TIME:
-                    Emp_Hrs = 4;
+                    empHrs = 4;
                     System.out.println("Employee is present Part time.");
                     break;
 
                 default:
-                    Emp_Hrs = 0;
+                    empHrs = 0;
                     System.out.println("Employee is absent.");
             }
-            Emp_Wage = Emp_Hrs * empRatePerHour;
-            Total_EmpHrs += Emp_Hrs;
+            empWage = empHrs * companyWage.empRatePerHour;
+            totalEmpHrs += empHrs;
             // totalEmpWage += empWage;
-            System.out.println("Day " + Total_Working_Days + "	Employee hours : " + Emp_Hrs + "	Wage $" + Emp_Wage);
+            System.out.println("Day " + totalWorkingDays + "	Employee hours : " + empHrs + "	Wage $" + empWage);
         }
-        totalEmpWage = Total_EmpHrs * empRatePerHour;
-        System.out.println();
-    }
-
-    @Override
-    public String toString() {
-        return " " + companyName + " Company Employee Monthly Wage is : $" + totalEmpWage + "\n\n";
+        return (totalEmpHrs * companyWage.empRatePerHour);
     }
 }
